@@ -3,343 +3,588 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nepal Tax Calculator</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>NepalPay Pro — Income Tax Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0d0f14;--surface:#161a22;--card:#1c2130;--border:#252d3d;--accent:#e8a020;--text:#e8eaf0;--muted:#7a8499;--green:#27ae60;--blue:#3498db;--red:#e74c3c;--input-bg:#111419;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5;min-height:100vh;padding:0 0 60px;}
+/* ═══════════════════════════════════════════════
+   NEPALPAY PRO  ·  Dark Navy Theme
+   Matching uploaded screenshots exactly
+═══════════════════════════════════════════════ */
+:root {
+  --bg:        #080c18;
+  --bg2:       #0d1220;
+  --card:      #111827;
+  --card2:     #151c2e;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.04);
 
-/* ── HEADER ── */
-header{background:linear-gradient(135deg,#0a0c10,#161a22);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
-.logo{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),#d4811a);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;box-shadow:0 4px 14px rgba(232,160,32,.35);}
-header h1{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;letter-spacing:-.01em;}
-header p{color:var(--muted);font-size:.75rem;margin-top:1px;}
-.badge{margin-left:auto;background:rgba(232,160,32,.12);border:1px solid rgba(232,160,32,.3);color:var(--accent);padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
+  --cyan:      #00d4ff;
+  --teal:      #00e5a0;
+  --blue:      #3b82f6;
+  --grad:      linear-gradient(90deg, #3b82f6, #00d4ff, #00e5a0);
+  --grad2:     linear-gradient(135deg, #3b82f6 0%, #00e5a0 100%);
+  --grad-bar:  linear-gradient(90deg, #3b82f6, #00d4ff 50%, #00e5a0);
+  --opt-bg:    #0a1a14;
+  --opt-border:#00e5a050;
 
-/* ── LAYOUT ── */
-main{max-width:1240px;margin:24px auto;padding:0 18px;display:grid;grid-template-columns:352px 1fr;gap:20px;align-items:start;}
+  --white:     #ffffff;
+  --grey1:     #8b9ab5;
+  --grey2:     #4a5568;
+  --grey3:     #2d3748;
 
-/* ── CARDS ── */
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;}
-.ch{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
-.ci{font-size:15px;line-height:1;}
-.ct{font-weight:600;font-size:.88rem;letter-spacing:.01em;}
-.cb{padding:15px 18px;display:flex;flex-direction:column;gap:12px;}
-
-/* ── FORM FIELDS ── */
-.field{display:flex;flex-direction:column;gap:4px;}
-label{font-size:.68rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.07em;}
-select,input[type=number]{
-  background:var(--input-bg);border:1px solid var(--border);border-radius:8px;
-  color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;
-  padding:9px 12px;outline:none;width:100%;
-  transition:border-color .18s,box-shadow .18s;-webkit-appearance:none;
-}
-select:focus,input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(232,160,32,.11);}
-input::placeholder{color:var(--muted);opacity:.6;}
-
-.note-row{background:rgba(232,160,32,.07);border:1px solid rgba(232,160,32,.18);border-radius:8px;padding:9px 13px;font-size:.75rem;color:var(--muted);line-height:1.55;}
-.note-row strong{color:var(--accent);}
-
-/* ── BUTTONS ── */
-.btn-row{display:flex;gap:10px;margin-top:2px;}
-#calcBtn{background:linear-gradient(135deg,var(--accent),#c87b10);color:#0d0f14;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;padding:12px 18px;border:none;border-radius:11px;cursor:pointer;flex:1;transition:transform .15s,box-shadow .18s;box-shadow:0 4px 18px rgba(232,160,32,.28);letter-spacing:.01em;}
-#calcBtn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(232,160,32,.38);}
-#calcBtn:active{transform:translateY(0);}
-#resetBtn{background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;padding:12px 16px;border:1px solid var(--border);border-radius:11px;cursor:pointer;transition:border-color .18s,color .18s;}
-#resetBtn:hover{border-color:#555;color:var(--text);}
-
-/* ── SUMMARY CARDS ── */
-.rcol{display:flex;flex-direction:column;}
-.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 18px;}
-.sc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 15px;display:flex;flex-direction:column;gap:4px;}
-.sc .sl{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:600;}
-.sc .sv{font-family:'DM Sans',sans-serif;font-size:1.18rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em;line-height:1.2;}
-.sv.gold{color:var(--accent);} .sv.red{color:var(--red);} .sv.blue{color:var(--blue);}
-.sc .ss{font-size:.69rem;color:var(--muted);margin-top:1px;}
-
-/* ── META ROW ── */
-.mrow{background:var(--surface);border:1px solid var(--border);border-radius:9px;margin:0 18px 14px;padding:11px 15px;display:flex;gap:18px;flex-wrap:wrap;row-gap:8px;}
-.mi{display:flex;flex-direction:column;gap:1px;}
-.mi .mll{font-size:.66rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.05em;}
-.mi .mv{font-size:.85rem;font-weight:600;font-variant-numeric:tabular-nums;}
-.mv.g{color:var(--green);} .mv.r{color:var(--red);}
-
-/* ── INCOME SUMMARY TABLE ── */
-.dt{width:100%;border-collapse:collapse;}
-.dt th{
-  text-align:left;color:var(--muted);font-size:.68rem;text-transform:uppercase;
-  letter-spacing:.07em;font-weight:600;padding:9px 18px;border-bottom:1px solid var(--border);
-}
-.dt th.num{text-align:right;}
-.dt td{
-  padding:10px 18px;border-bottom:1px solid rgba(37,45,61,.4);
-  font-size:.875rem;font-weight:400;line-height:1.4;vertical-align:middle;
-}
-.dt td.num{
-  text-align:right;font-variant-numeric:tabular-nums;font-weight:600;
-  font-size:.875rem;white-space:nowrap;
-}
-.dt tr:last-child td{border-bottom:none;}
-.dt tr:not(.shd):not(.tot):hover td{background:rgba(255,255,255,.016);}
-.dt .tot td{font-weight:700;color:var(--accent);background:rgba(232,160,32,.05);}
-.dt .tot td.num{font-size:.9rem;}
-.dt .ded td{color:var(--green);}
-.dt .ded td.num{font-weight:600;}
-.dt .shd td{
-  font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;
-  padding:10px 18px 3px;font-weight:600;background:rgba(0,0,0,.13);
-}
-.dt .txrow td{color:var(--red);}
-
-/* ── MONTH TABLE ── */
-.month-table{width:100%;border-collapse:collapse;font-size:.8rem;}
-.month-table th{
-  text-align:right;color:var(--muted);font-size:.64rem;text-transform:uppercase;
-  letter-spacing:.06em;font-weight:600;padding:8px 10px;border-bottom:1px solid var(--border);
-  white-space:nowrap;background:rgba(0,0,0,.1);
-}
-.month-table th:first-child{text-align:left;}
-.month-table td{
-  padding:8px 10px;border-bottom:1px solid rgba(37,45,61,.35);
-  text-align:right;font-variant-numeric:tabular-nums;font-weight:500;
-  font-size:.8rem;white-space:nowrap;
-}
-.month-table td:first-child{text-align:left;font-weight:400;white-space:normal;min-width:120px;}
-.month-table tr:hover td{background:rgba(255,255,255,.02);}
-.month-table .tot-row td{font-weight:700;color:var(--accent);background:rgba(232,160,32,.06);border-top:1px solid var(--border);}
-.month-table .part-row td{color:var(--muted);}
-.month-table .part-row td:first-child{font-style:italic;}
-
-/* ── TABLE ACTIONS ── */
-.table-actions{padding:10px 18px 14px;display:flex;justify-content:flex-end;}
-.prbtn{background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;padding:7px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:border-color .18s,color .18s;}
-.prbtn:hover{border-color:var(--accent);color:var(--accent);}
-
-/* ── SLABS ── */
-.slab-wrap{padding:14px 18px;display:flex;flex-direction:column;gap:10px;}
-.sr{display:flex;flex-direction:column;gap:4px;}
-.sm{display:flex;justify-content:space-between;align-items:center;gap:8px;}
-.slb{font-size:.76rem;color:var(--muted);line-height:1.3;}
-.sa{font-size:.8rem;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
-.bbg{height:5px;background:var(--border);border-radius:6px;overflow:hidden;flex-shrink:0;}
-.bfill{height:100%;border-radius:6px;transition:width 1s cubic-bezier(.4,0,.2,1);}
-
-/* ── CIT OPTIMIZER ── */
-.opt-box{background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.2);border-radius:12px;padding:13px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
-.opt-box .oi{font-size:22px;flex-shrink:0;line-height:1;}
-.opt-box .ot .tt{font-size:.82rem;font-weight:700;color:var(--green);}
-.opt-box .ot .td2{font-size:.74rem;color:var(--muted);margin-top:2px;line-height:1.5;}
-.opt-box .os{margin-left:auto;text-align:right;flex-shrink:0;}
-.opt-box .os .am{font-size:1rem;font-weight:700;color:var(--green);font-variant-numeric:tabular-nums;}
-.opt-box .os .sl{font-size:.65rem;color:var(--muted);}
-
-/* ── TABS ── */
-.tabs{display:flex;border-bottom:1px solid var(--border);padding:0 18px;}
-.tab{padding:10px 15px;font-size:.79rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .18s,border-color .18s;user-select:none;}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
-.tab-content{display:none;}
-.tab-content.active{display:block;}
-
-/* ── PLACEHOLDER ── */
-.ph{display:none;}
-.placeholder{padding:40px 18px;text-align:center;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:8px;}
-.placeholder .pi{font-size:34px;opacity:.3;line-height:1;}
-.placeholder p{font-size:.82rem;max-width:240px;line-height:1.6;}
-
-/* ── MOBILE ── */
-@media(max-width:820px){
-  main{grid-template-columns:1fr;gap:0;padding:0 12px;}
-  main>div:first-child{margin-bottom:0;}
-  .sg{grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px;}
-  .sc .sv{font-size:1rem;}
-  .badge{display:none;}
-  header{padding:13px 14px;}
-  header h1{font-size:1.15rem;}
-  .mrow{margin:0 14px 12px;gap:14px;}
-  .dt td,.dt th{padding:8px 12px;}
-  .table-actions{padding:8px 12px 12px;}
-  .slab-wrap{padding:12px 14px;}
-}
-@media(max-width:480px){
-  .sg{grid-template-columns:1fr 1fr;gap:8px;}
-  .sg .sc:last-child{grid-column:span 2;}
-  .sc .sv{font-size:.95rem;}
-  .mrow{flex-direction:column;gap:6px;}
-  .month-table{font-size:.72rem;}
-  .month-table td,.month-table th{padding:6px 7px;}
+  --red:       #f87171;
+  --amber:     #fbbf24;
 }
 
-/* ── PRINT ── */
-@media print{
-  body{background:#fff;color:#000;font-size:11px;padding:0;}
-  header,main>div:first-child,#summaryCard,#slabCard,#optBox,.tabs,.tab,#monthTabContent,.table-actions,.badge,button{display:none!important;}
-  main{display:block;padding:0;margin:0;max-width:100%;}
-  .rcol{display:block;}
-  #incomeCard{border:none;border-radius:0;background:#fff;display:block!important;margin:0;}
-  .ch{border-bottom:2px solid #000;background:none;}
-  .ct{color:#000;font-size:13px;}
-  .ph{display:block;text-align:center;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #000;}
-  .ph h2{font-size:17px;font-weight:700;}
-  .ph p{font-size:10px;color:#555;margin-top:3px;}
-  .mrow{background:#f5f5f5;border:1px solid #ddd;border-radius:4px;margin:0 0 12px;padding:9px 13px;}
-  .mi .mll{color:#888;}
-  .mi .mv{color:#000;}
-  .mv.g{color:#1a7a3f!important;}
-  .mv.r{color:#c0392b!important;}
-  .dt th{color:#555;border-bottom:1px solid #ccc;padding:5px 10px;}
-  .dt td{color:#000;border-bottom:1px solid #eee;padding:6px 10px;font-size:11px;}
-  .dt .tot td{color:#000;background:#f5f5f5;font-weight:700;}
-  .dt .ded td{color:#1a7a3f;}
-  .dt .shd td{color:#888;background:#f9f9f9;}
-  .dt .txrow td{color:#c0392b;}
-  #summaryTabContent{display:block!important;}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER ────────────────────────────────── */
+header {
+  padding: 28px 32px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg);
+}
+.logo-box {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, #1e3a5f, #1d4ed8);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.3);
+  flex-shrink: 0;
+}
+.brand { display: flex; align-items: baseline; gap: 6px; }
+.brand-main { font-size: 1.4rem; font-weight: 800; color: var(--white); letter-spacing: -.02em; }
+.fy-pill {
+  margin-left: auto;
+  background: rgba(59,130,246,0.12);
+  border: 1px solid rgba(59,130,246,0.25);
+  color: var(--cyan);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+}
+
+/* ── MAIN LAYOUT ───────────────────────────── */
+main {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ── INPUT PANEL ───────────────────────────── */
+.input-panel { display: flex; flex-direction: column; gap: 6px; }
+
+/* Section group */
+.group {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 22px 20px;
+  margin-bottom: 8px;
+}
+.group-label {
+  font-size: .67rem; font-weight: 600; color: var(--grey1);
+  letter-spacing: .14em; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+/* Fields */
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: .67rem; color: var(--grey2); letter-spacing: .08em; text-transform: uppercase; font-weight: 500; }
+
+select, input[type=number] {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: .9rem; font-weight: 400;
+  padding: 13px 16px;
+  outline: none; width: 100%;
+  transition: border-color .15s, box-shadow .15s;
+  -webkit-appearance: none;
+}
+select { cursor: pointer; }
+select option { background: #1a2035; }
+select:focus, input:focus {
+  border-color: rgba(59,130,246,0.5);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+input::placeholder { color: var(--grey2); font-weight: 300; }
+
+/* Section divider label */
+.section-sep {
+  font-size: .67rem; font-weight: 600; color: var(--grey1);
+  letter-spacing: .14em; text-transform: uppercase;
+  padding: 4px 0 10px;
+  border-top: 1px solid var(--border2);
+  margin-top: 14px;
+}
+
+.note {
+  background: rgba(251,191,36,0.06);
+  border: 1px solid rgba(251,191,36,0.15);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: .72rem; color: var(--amber); line-height: 1.6; font-weight: 400;
+  margin-top: 6px;
+}
+
+/* ── BUTTONS ───────────────────────────────── */
+.btn-row { display: flex; gap: 10px; }
+#calcBtn {
+  flex: 1;
+  background: var(--grad2);
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  font-size: .88rem; font-weight: 700;
+  padding: 14px 20px;
+  border: none; border-radius: 14px; cursor: pointer;
+  transition: opacity .14s, transform .1s;
+  letter-spacing: .02em;
+}
+#calcBtn:hover  { opacity: .9; transform: translateY(-1px); }
+#calcBtn:active { transform: none; opacity: 1; }
+#resetBtn {
+  background: transparent; color: var(--grey1);
+  font-family: 'Inter', sans-serif; font-size: .85rem; font-weight: 500;
+  padding: 14px 18px;
+  border: 1px solid var(--border); border-radius: 14px; cursor: pointer;
+  transition: border-color .14s, color .14s;
+}
+#resetBtn:hover { border-color: var(--grey2); color: var(--white); }
+
+/* ── RESULTS PANEL ─────────────────────────── */
+.results-panel { display: flex; flex-direction: column; gap: 12px; }
+
+/* Big hero tax display */
+.hero-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 24px 22px;
+}
+.hero-label {
+  font-size: .67rem; font-weight: 600; color: var(--grey1);
+  letter-spacing: .14em; text-transform: uppercase; margin-bottom: 6px;
+}
+.hero-amount {
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px;
+}
+.hero-rupe {
+  font-size: 2.2rem; font-weight: 700;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-num {
+  font-size: 3.4rem; font-weight: 800; letter-spacing: -.04em; line-height: 1;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-currency {
+  font-size: .85rem; font-weight: 500; color: var(--grey1); margin-left: 4px;
+}
+.hero-sub {
+  font-size: .75rem; color: var(--grey2); margin-top: 4px;
+}
+.hero-meta {
+  display: flex; gap: 20px; flex-wrap: wrap; margin-top: 16px;
+  padding-top: 16px; border-top: 1px solid var(--border2);
+}
+.hm-item { display: flex; flex-direction: column; gap: 2px; }
+.hm-label { font-size: .62rem; color: var(--grey2); letter-spacing: .07em; text-transform: uppercase; font-weight: 500; }
+.hm-val   { font-size: .85rem; font-weight: 600; color: var(--white); }
+.hm-val.g { color: var(--teal); }
+.hm-val.r { color: var(--red); }
+.hm-val.c { color: var(--cyan); }
+
+/* Stat cards row */
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 20px 18px;
+  position: relative;
+}
+.stat-icon {
+  position: absolute; top: 16px; right: 16px;
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; opacity: .7;
+}
+.stat-label { font-size: .63rem; font-weight: 600; color: var(--grey1); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+.stat-rupe  { font-size: .95rem; font-weight: 600; color: var(--grey1); margin-right: 4px; }
+.stat-num   { font-size: 1.5rem; font-weight: 700; color: var(--white); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+
+/* Income breakdown card */
+.breakdown-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+/* Tabs */
+.tab-bar {
+  display: flex; border-bottom: 1px solid var(--border);
+  padding: 0 20px; background: var(--card2);
+}
+.tab {
+  padding: 12px 16px; font-size: .77rem; font-weight: 600;
+  color: var(--grey2); cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color .13s, border-color .13s; user-select: none; letter-spacing: .02em;
+}
+.tab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Breakdown table */
+.bt { width: 100%; border-collapse: collapse; }
+.bt thead { background: var(--card2); }
+.bt th {
+  text-align: left; color: var(--grey2);
+  font-size: .62rem; letter-spacing: .09em; text-transform: uppercase; font-weight: 600;
+  padding: 10px 20px; border-bottom: 1px solid var(--border);
+}
+.bt th.r { text-align: right; }
+.bt td {
+  padding: 10px 20px; color: #c9d4e8;
+  font-size: .86rem; border-bottom: 1px solid var(--border2);
+}
+.bt td.r { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--white); }
+.bt tbody tr:last-child td { border-bottom: none; }
+.bt tbody tr:hover td { background: rgba(255,255,255,.02); }
+.bt .tot { border-top: 1px solid var(--border); }
+.bt .tot td { font-weight: 700; color: var(--cyan); background: rgba(0,212,255,.04); }
+.bt .ded td { color: var(--teal); }
+.bt .ded td.r { color: var(--teal); }
+.bt .shd td {
+  font-size: .62rem; color: var(--grey2); text-transform: uppercase;
+  letter-spacing: .09em; padding: 9px 20px 3px; font-weight: 700;
+  background: rgba(255,255,255,.02);
+}
+
+.tbl-actions { padding: 10px 20px 14px; display: flex; justify-content: flex-end; }
+.prbtn {
+  background: transparent; color: var(--grey2);
+  font-family: 'Inter', sans-serif; font-size: .76rem; font-weight: 500;
+  padding: 7px 14px; border: 1px solid var(--border); border-radius: 10px; cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  transition: border-color .13s, color .13s;
+}
+.prbtn:hover { border-color: var(--cyan); color: var(--cyan); }
+
+/* Month table */
+.mt { width: 100%; border-collapse: collapse; font-size: .79rem; }
+.mt thead { background: var(--card2); }
+.mt th {
+  text-align: right; color: var(--grey2);
+  font-size: .61rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600;
+  padding: 9px 10px; white-space: nowrap; border-bottom: 1px solid var(--border);
+}
+.mt th:first-child { text-align: left; }
+.mt td {
+  padding: 8px 10px; text-align: right;
+  font-variant-numeric: tabular-nums; font-weight: 400;
+  color: #9ba8bd; border-bottom: 1px solid var(--border2);
+}
+.mt td:first-child { text-align: left; color: var(--white); font-weight: 400; }
+.mt tbody tr:hover td { background: rgba(255,255,255,.02); }
+.mt .tot-row { border-top: 1px solid var(--border); }
+.mt .tot-row td { font-weight: 700; color: var(--cyan); background: rgba(0,212,255,.04); }
+.mt .part-row td { color: #5a6a82; font-style: italic; }
+.mt .part-row td:first-child { color: #7a8aa0; }
+
+/* ── SLAB CARD ─────────────────────────────── */
+.slab-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 22px 20px;
+}
+.slab-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 22px;
+}
+.slab-header-icon { font-size: 18px; opacity: .7; }
+.slab-header-title {
+  font-size: .67rem; font-weight: 600; color: var(--grey1);
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.slab-item { margin-bottom: 18px; }
+.slab-item:last-child { margin-bottom: 0; }
+.slab-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+.slab-name { font-size: .82rem; font-weight: 400; color: #9ba8bd; }
+.slab-amt  {
+  font-size: .88rem; font-weight: 700; font-variant-numeric: tabular-nums;
+  display: flex; align-items: center; gap: 5px;
+}
+.slab-rupe { font-size: .75rem; color: var(--grey1); }
+.bar-track { height: 5px; background: var(--card2); border-radius: 99px; overflow: hidden; }
+.bar-fill  { height: 100%; border-radius: 99px; background: var(--grad-bar); transition: width .9s cubic-bezier(.4,0,.2,1); }
+.slab-totals { border-top: 1px solid var(--border); margin-top: 18px; padding-top: 14px; display: flex; justify-content: space-between; }
+.st-item { display: flex; flex-direction: column; gap: 3px; }
+.st-label { font-size: .62rem; color: var(--grey2); letter-spacing: .07em; text-transform: uppercase; }
+.st-val   { font-size: .95rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.st-val.c { color: var(--cyan); }
+.st-val.g { color: var(--teal); }
+
+/* ── OPTIMIZATION HUB ──────────────────────── */
+.opt-card {
+  background: var(--opt-bg);
+  border: 1px solid var(--opt-border);
+  border-radius: 20px;
+  padding: 22px 20px;
+}
+.opt-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+}
+.opt-icon { font-size: 16px; color: var(--teal); }
+.opt-title { font-size: .67rem; font-weight: 700; color: var(--teal); letter-spacing: .14em; text-transform: uppercase; }
+.opt-desc { font-size: .84rem; color: #7db8a0; line-height: 1.6; margin-bottom: 16px; }
+.opt-saving {
+  background: rgba(0,229,160,0.06);
+  border: 1px solid rgba(0,229,160,0.2);
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+.opt-saving-label { font-size: .65rem; font-weight: 700; color: var(--teal); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px; }
+.opt-saving-amount { display: flex; align-items: baseline; gap: 8px; }
+.opt-saving-rupe { font-size: 1.3rem; font-weight: 600; color: var(--teal); }
+.opt-saving-num  { font-size: 2rem; font-weight: 800; color: var(--teal); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+
+/* ── PLACEHOLDER ───────────────────────────── */
+.placeholder {
+  padding: 48px 20px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.placeholder .pi { font-size: 36px; opacity: .15; }
+.placeholder p { font-size: .82rem; color: var(--grey2); max-width: 230px; line-height: 1.65; }
+
+/* ── PRINT HEADER ──────────────────────────── */
+.ph { display: none; }
+
+/* ── RESPONSIVE ────────────────────────────── */
+@media (max-width: 860px) {
+  main { grid-template-columns: 1fr; padding: 0 14px 60px; }
+  header { padding: 20px 18px 14px; }
+  .fy-pill { display: none; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 500px) {
+  .hero-num { font-size: 2.4rem; }
+  .stat-row { grid-template-columns: 1fr; }
+  .hero-meta { gap: 14px; }
+}
+
+/* ── PRINT ─────────────────────────────────── */
+@media print {
+  body { background: #fff; color: #000; }
+  header, .input-panel, .stat-row, .slab-card, .opt-card,
+  .tab-bar, #monthTabContent, .tbl-actions, button { display: none !important; }
+  main { display: block; max-width: 100%; padding: 0; }
+  .results-panel { display: block; }
+  .breakdown-card { border: none; border-radius: 0; background: #fff; }
+  .hero-card { border: none; background: #fff; }
+  .ph { display: block; text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 16px; }
+  .ph h2 { font-size: 16px; } .ph p { font-size: 10px; color: #555; }
+  .bt th { color: #555; background: #f5f5f5; border-bottom: 1px solid #ccc; padding: 5px 10px; }
+  .bt td { color: #000; padding: 6px 10px; border-bottom: 1px solid #eee; }
+  .bt .tot td { background: #eef; color: #1a1aff; }
+  .bt .ded td { color: #065f46; }
+  .bt .shd td { background: #f9f9f9; color: #888; }
+  #summaryTabContent { display: block !important; }
 }
 </style>
 </head>
 <body>
+
+<!-- ═══ HEADER ═══ -->
 <header>
-  <div class="logo">🧾</div>
-  <div><h1>Nepal Tax Calculator</h1><p>Employee Income Tax — IRD Nepal</p></div>
-  <div class="badge">FY 2081/82</div>
+  <div class="logo-box">🧮</div>
+  <div>
+    <div class="brand">
+      <span class="brand-main">Income Tax Calculator</span>
+    </div>
+    <div style="font-size:.72rem;color:var(--grey2);margin-top:2px;letter-spacing:.04em;">Employee Tax Computation — IRD Nepal</div>
+  </div>
+  <div class="fy-pill">FY 2081/82</div>
 </header>
 
+<!-- ═══ MAIN ═══ -->
 <main>
-<!-- ======= LEFT INPUTS ======= -->
-<div>
 
-<div class="card">
-  <div class="ch"><span class="ci">👤</span><span class="ct">Personal Details</span></div>
-  <div class="cb">
-    <div class="field"><label>Tax File Type</label>
-      <select id="taxType"><option value="Single" selected>Single</option><option value="Couple">Couple</option></select></div>
-    <div class="field"><label>Gender</label>
-      <select id="gender"><option value="Female">Female</option><option value="Male" selected>Male</option></select></div>
-    <div class="field"><label>Department</label>
-      <select id="dept"><option value="Marketing">Marketing</option><option value="Admin" selected>Admin</option></select></div>
+<!-- ════ LEFT: INPUTS ════ -->
+<div class="input-panel">
+
+  <div class="group">
+    <div class="group-label">Personal Profile</div>
+    <div class="row2" style="margin-bottom:10px;">
+      <select id="taxType"><option value="Single" selected>Single</option><option value="Couple">Couple</option></select>
+      <select id="gender"><option value="Female">Female</option><option value="Male" selected>Male</option></select>
+    </div>
+    <select id="dept" style="width:100%;">
+      <option value="">Department</option>
+      <option value="Marketing">Marketing</option>
+      <option value="Admin" selected>Admin</option>
+    </select>
   </div>
-</div>
 
-<div class="card">
-  <div class="ch"><span class="ci">🏢</span><span class="ct">Position & Promotion</span></div>
-  <div class="cb">
-    <div class="field"><label>Current Post</label>
+  <div class="group">
+    <div class="group-label">Career Status</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
       <select id="post">
         <option>Peon</option><option>Driver</option><option>Record Clerk</option>
         <option selected>Junior Associate</option><option>Associate</option><option>Senior Associate</option>
         <option>Assistant Manager</option><option>Deputy Manager</option>
         <option>Manager</option><option>Senior Manager</option>
         <option>Chief Manager</option><option>Senior Chief Manager</option>
-      </select></div>
-    <div class="field"><label>Grade No. at Start of FY</label>
-      <input type="number" id="grade" value="0" min="0" max="10"></div>
-    <div class="field"><label>Promoted This Year?</label>
-      <select id="promoted" onchange="togglePromo()"><option value="No">No</option><option value="Yes">Yes</option></select></div>
-
-    <!-- Shown only when NOT promoted -->
-    <div id="gradeMonthField" class="field"><label>Grade Increment Month</label>
-      <select id="gradeMonth">
-        <option>July</option><option>August</option><option>September</option>
-        <option>October</option><option>November</option><option>December</option>
-        <option>January</option><option>February</option><option selected>March</option>
-        <option>April</option><option>May</option><option>June</option>
-      </select></div>
-
-    <!-- Shown only when promoted = Yes -->
-    <div id="optionField" class="field" style="display:none;"><label>Option Plan</label>
-      <select id="option" onchange="toggleOption()">
-        <option value="A">A — Promoted (Stay at New Post)</option>
-        <option value="B">B — Revert to Previous Post</option>
-      </select></div>
-    <div id="promoMonthField" class="field" style="display:none;"><label id="promoMonthLabel">Promotion Applicable Month</label>
-      <select id="promoMonth">
-        <option>July</option><option>August</option><option>September</option>
-        <option selected>October</option><option>November</option><option>December</option>
-        <option>January</option><option>February</option><option>March</option>
-        <option>April</option><option>May</option><option>June</option>
-      </select></div>
-  </div>
-</div>
-
-<div class="card">
-  <div class="ch"><span class="ci">💰</span><span class="ct">Income & Allowances</span></div>
-  <div class="cb">
-    <div class="field"><label>Technical Allowance (per Month)</label>
-      <input type="number" id="technical" value="" min="0" placeholder="0"></div>
-    <div class="field"><label>Entertainment / Other Allowance (Annual)</label>
-      <input type="number" id="entertainment" value="" min="0" placeholder="0"></div>
-    <div class="field"><label>Festival Allowance (Annual)</label>
-      <input type="number" id="festival" value="" min="0" placeholder="0"></div>
-    <div class="field"><label>Leave Encashment (Annual)</label>
-      <input type="number" id="leave" value="" min="0" placeholder="0"></div>
-    <div class="field"><label>Total Bonus (Annual)</label>
-      <input type="number" id="bonus" value="" min="0" placeholder="0"></div>
-  </div>
-</div>
-
-<div class="card">
-  <div class="ch"><span class="ci">🛡️</span><span class="ct">Deductions & Contributions</span></div>
-  <div class="cb">
-    <div class="field"><label>Life Insurance Premium (Annual)</label>
-      <input type="number" id="lifeIns" value="" min="0" placeholder="0"></div>
-    <div class="field"><label>CIT Contribution — Monthly (NPR)</label>
-      <input type="number" id="citMonthly" value="" min="0" placeholder="0"></div>
-    <div class="field"><label>CIT Contribution — Lump Sum (NPR)</label>
-      <input type="number" id="citLump" value="" min="0" placeholder="0"></div>
-    <div class="note-row">
-      <strong>Note:</strong> Retirement fund deduction = min(1/3 of gross, रू 5,00,000, actual PF + CIT contributed)
-    </div>
-  </div>
-</div>
-
-<div class="btn-row">
-  <button id="calcBtn" onclick="calculate()">⚡ Calculate Tax</button>
-  <button id="resetBtn" onclick="resetForm()">↺ Reset</button>
-</div>
-
-</div><!-- end left -->
-
-<!-- ======= RIGHT RESULTS ======= -->
-<div class="rcol">
-
-  <div class="card" id="summaryCard" style="margin-bottom:18px;">
-    <div class="ch"><span class="ci">📊</span><span class="ct">Tax Summary</span></div>
-    <div id="summaryContent">
-      <div class="placeholder"><div class="pi">🧮</div><p>Fill in your details and click <strong>Calculate Tax</strong> to see results.</p></div>
+      </select>
+      <div class="row2">
+        <div class="field">
+          <label>Grade No. (Start FY)</label>
+          <input type="number" id="grade" value="0" min="0" max="10">
+        </div>
+        <div class="field">
+          <label>Promoted?</label>
+          <select id="promoted" onchange="togglePromo()"><option value="No">No</option><option value="Yes">Yes</option></select>
+        </div>
+      </div>
+      <div id="gradeMonthField" class="field">
+        <label>Grade Increment Month</label>
+        <select id="gradeMonth">
+          <option>July</option><option>August</option><option>September</option>
+          <option>October</option><option>November</option><option>December</option>
+          <option>January</option><option>February</option><option selected>March</option>
+          <option>April</option><option>May</option><option>June</option>
+        </select>
+      </div>
+      <div id="optionField" class="field" style="display:none;">
+        <label>Option Plan</label>
+        <select id="option" onchange="toggleOption()">
+          <option value="A">A — Stay at New Post</option>
+          <option value="B">B — Revert to Previous Post</option>
+        </select>
+      </div>
+      <div id="promoMonthField" class="field" style="display:none;">
+        <label id="promoMonthLabel">Promotion Month</label>
+        <select id="promoMonth">
+          <option>July</option><option>August</option><option>September</option>
+          <option selected>October</option><option>November</option><option>December</option>
+          <option>January</option><option>February</option><option>March</option>
+          <option>April</option><option>May</option><option>June</option>
+        </select>
+      </div>
     </div>
   </div>
 
-  <div id="optBox" style="display:none;"></div>
+  <div class="group">
+    <div class="group-label">Allowances</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <input type="number" id="technical" placeholder="Technical Allowance / Month" min="0">
+      <input type="number" id="entertainment" placeholder="Entertainment & Other (Annual)" min="0">
+      <input type="number" id="festival" placeholder="Festival Allowance (Annual)" min="0">
+      <input type="number" id="leave" placeholder="Leave Encashment (Annual)" min="0">
+      <input type="number" id="bonus" placeholder="Total Bonus (Annual)" min="0">
+    </div>
+  </div>
 
-  <div class="card" id="incomeCard" style="margin-bottom:18px;">
-    <div class="ch"><span class="ci">📋</span><span class="ct">Income Breakdown</span></div>
-    <div class="tabs">
-      <div class="tab active" onclick="switchTab('summary')">Summary</div>
-      <div class="tab" onclick="switchTab('monthly')">Monthly Salary Detail</div>
+  <div class="group">
+    <div class="group-label">Deductions</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <input type="number" id="lifeIns" placeholder="Life Insurance Premium (Annual)" min="0">
+      <input type="number" id="citMonthly" placeholder="CIT Contribution / Month" min="0">
+      <input type="number" id="citLump" placeholder="CIT Lump Sum" min="0">
+      <div class="note">Retirement deduction = min(⅓ gross, रू 5,00,000, actual PF + CIT)</div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button id="calcBtn" onclick="calculate()">⚡ Calculate Tax</button>
+    <button id="resetBtn" onclick="resetForm()">↺ Reset</button>
+  </div>
+
+</div><!-- /input-panel -->
+
+<!-- ════ RIGHT: RESULTS ════ -->
+<div class="results-panel">
+
+  <!-- Hero card -->
+  <div class="hero-card" id="heroCard">
+    <div id="heroContent">
+      <div class="placeholder"><div class="pi">🧮</div><p>Enter your details and click <strong style="color:#9ba8bd;">Calculate Tax</strong> to see your results.</p></div>
+    </div>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="stat-row" id="statRow" style="display:none;">
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div class="stat-label">Gross Annual</div>
+      <div><span class="stat-rupe">रू</span><span class="stat-num" id="statGross">—</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="color:var(--teal);">🎯</div>
+      <div class="stat-label">Taxable Basis</div>
+      <div><span class="stat-rupe">रू</span><span class="stat-num" id="statTaxable">—</span></div>
+    </div>
+  </div>
+
+  <!-- Optimization Hub -->
+  <div class="opt-card" id="optCard" style="display:none;"></div>
+
+  <!-- Breakdown -->
+  <div class="breakdown-card" id="breakdownCard">
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('summary')">Income Summary</div>
+      <div class="tab" onclick="switchTab('monthly')">Monthly Detail</div>
     </div>
     <div id="summaryTabContent" class="tab-content active">
-      <div class="placeholder"><div class="pi">📋</div><p>Results will appear here.</p></div>
+      <div class="placeholder"><div class="pi">📋</div><p>Breakdown will appear after calculation.</p></div>
     </div>
     <div id="monthTabContent" class="tab-content">
-      <div class="placeholder"><div class="pi">📅</div><p>Month-by-month breakdown will appear here.</p></div>
+      <div class="placeholder"><div class="pi">📅</div><p>Month-by-month detail will appear here.</p></div>
     </div>
   </div>
 
-  <div class="card" id="slabCard" style="margin-bottom:0;">
-    <div class="ch"><span class="ci">📈</span><span class="ct">Tax Slab Breakdown</span></div>
+  <!-- Slab card -->
+  <div class="slab-card" id="slabCard">
+    <div class="slab-header">
+      <span class="slab-header-icon">🪣</span>
+      <span class="slab-header-title">Tax Slab Distribution</span>
+    </div>
     <div id="slabContent">
-      <div class="placeholder"><div class="pi">📈</div><p>Tax slab breakdown will appear after calculation.</p></div>
+      <div class="placeholder" style="padding:20px 0 0;"><p>Tax slab breakdown will appear here.</p></div>
     </div>
   </div>
 
-</div>
+</div><!-- /results-panel -->
 </main>
 
 <script>
-// ============================================================
-// CADRE DATA
-// ============================================================
+/* ══════════════════════════════════════
+   DATA
+══════════════════════════════════════ */
 const CADRE = {
   'Peon':               {basic:15000,grade:1200,max:46200, allow:.40,conv:1400},
   'Driver':             {basic:17000,grade:1350,max:52100, allow:.40,conv:1400},
@@ -356,525 +601,357 @@ const CADRE = {
 };
 const POST_ORDER = Object.keys(CADRE);
 
-// FY months in order: Shrawan (July) → Ashadh (June)
-// English month, days in month
 const FY_MONTHS = [
-  {name:'July',    days:31, nepali:'Shrawan'},
-  {name:'August',  days:31, nepali:'Bhadra'},
+  {name:'July',    days:31,nepali:'Shrawan'},
+  {name:'August',  days:31,nepali:'Bhadra'},
   {name:'September',days:30,nepali:'Ashwin'},
-  {name:'October', days:31, nepali:'Kartik'},
-  {name:'November',days:30, nepali:'Mangsir'},
-  {name:'December',days:31, nepali:'Poush'},
-  {name:'January', days:31, nepali:'Magh'},
-  {name:'February',days:28, nepali:'Falgun'},
-  {name:'March',   days:31, nepali:'Chaitra'},
-  {name:'April',   days:30, nepali:'Baisakh'},
-  {name:'May',     days:31, nepali:'Jestha'},
-  {name:'June',    days:30, nepali:'Ashadh'},
+  {name:'October', days:31,nepali:'Kartik'},
+  {name:'November',days:30,nepali:'Mangsir'},
+  {name:'December',days:31,nepali:'Poush'},
+  {name:'January', days:31,nepali:'Magh'},
+  {name:'February',days:28,nepali:'Falgun'},
+  {name:'March',   days:31,nepali:'Chaitra'},
+  {name:'April',   days:30,nepali:'Baisakh'},
+  {name:'May',     days:31,nepali:'Jestha'},
+  {name:'June',    days:30,nepali:'Ashadh'},
 ];
-// Index in FY_MONTHS
-function fyIdx(monthName){ return FY_MONTHS.findIndex(m=>m.name===monthName); }
+function fyIdx(m){ return FY_MONTHS.findIndex(x=>x.name===m); }
 
-// ============================================================
-// SPECIAL ALLOWANCE per month
-// Rule: LOWER of (17% of basic pay) OR 7000/month
-// For full month : MIN(basic * 0.17, 7000)
-// For 16-day partial July: MIN(basicSeg * 0.17, 3612.90)
-//   where 3612.90 = 7000 * 16/31
-// ============================================================
-function specialAllow(basicFull, days, totalDaysInMonth){
-  const ratio       = days / totalDaysInMonth;
-  const basicSeg    = basicFull * ratio;          // prorated basic for these days
-  const sevenKPro   = 7000 * ratio;               // prorated 7000 (= 3612.90 for 16 days)
-  // LOWER of 17% of prorated basic vs prorated 7000
-  return Math.min(basicSeg * 0.17, sevenKPro);
+function specialAllow(basicFull,days,totalDays){
+  const r=days/totalDays;
+  return Math.min(basicFull*r*0.17, 7000*r);
 }
-
-// ============================================================
-// CONVEYANCE per segment
-// Full month: cadre.conv; Partial (16 days): cadre.conv * 16/31
-// ============================================================
-function convAllow(conv, days, totalDaysInMonth){
-  return conv * (days / totalDaysInMonth);
+function convAllow(conv,days,totalDays){ return conv*(days/totalDays); }
+function getMedIns(gender,taxType){
+  const emp=gender==='Female'?5500:4500;
+  return {employee:emp,total:taxType==='Couple'?emp*1.5:emp};
 }
-
-// ============================================================
-// MEDICAL INSURANCE
-// ============================================================
-function getMedIns(gender, taxType){
-  const emp = gender==='Female' ? 5500 : 4500;
-  // Couple: employer pays 50% of emp rate on top
-  const total = taxType==='Couple' ? emp * 1.5 : emp;
-  return {employee: emp, total};
-}
-
-// ============================================================
-// TAX SLABS
-// ============================================================
-function calcTax(income, taxType, gender){
-  const slabs = taxType==='Single'
-    ? [{f:0,t:500000,r:.01},{f:500000,t:700000,r:.10},{f:700000,t:1000000,r:.20},
-       {f:1000000,t:2000000,r:.30},{f:2000000,t:5000000,r:.36},{f:5000000,t:1e12,r:.39}]
-    : [{f:0,t:600000,r:.01},{f:600000,t:800000,r:.10},{f:800000,t:1100000,r:.20},
-       {f:1100000,t:2000000,r:.30},{f:2000000,t:5000000,r:.36},{f:5000000,t:1e12,r:.39}];
+function calcTax(income,taxType,gender){
+  const slabs=taxType==='Single'
+    ?[{f:0,t:500000,r:.01},{f:500000,t:700000,r:.10},{f:700000,t:1000000,r:.20},
+      {f:1000000,t:2000000,r:.30},{f:2000000,t:5000000,r:.36},{f:5000000,t:1e12,r:.39}]
+    :[{f:0,t:600000,r:.01},{f:600000,t:800000,r:.10},{f:800000,t:1100000,r:.20},
+      {f:1100000,t:2000000,r:.30},{f:2000000,t:5000000,r:.36},{f:5000000,t:1e12,r:.39}];
   let total=0;
   const rows=slabs.map(s=>{
-    if(income<=s.f) return{...s,taxable:0,tax:0};
+    if(income<=s.f)return{...s,taxable:0,tax:0};
     const taxable=Math.min(income,s.t)-s.f;
     const tax=taxable*s.r; total+=tax;
     return{...s,taxable,tax};
   });
-  const rebatePct = (gender==='Female' && taxType==='Single') ? 0.10 : 0;
-  const rebateAmt = total*rebatePct;
-  return {totalTax:total, rebateAmt, netTax:total-rebateAmt, rows, rebatePct};
+  const rebatePct=(gender==='Female'&&taxType==='Single')?0.10:0;
+  const rebateAmt=total*rebatePct;
+  return{totalTax:total,rebateAmt,netTax:total-rebateAmt,rows,rebatePct};
 }
+function fmt(n){return Math.round(n).toLocaleString('en-NP');}
 
-// ============================================================
-// FORMAT
-// ============================================================
-function fmt(n){ return Math.round(n).toLocaleString('en-NP'); }
-function fmtD(n){ return n.toLocaleString('en-NP',{minimumFractionDigits:2,maximumFractionDigits:2}); }
-
-// ============================================================
-// UI TOGGLE
-// ============================================================
+/* UI */
 function togglePromo(){
-  const yes = document.getElementById('promoted').value==='Yes';
-  document.getElementById('gradeMonthField').style.display = yes ? 'none' : 'flex';
-  document.getElementById('optionField').style.display     = yes ? 'flex' : 'none';
-  document.getElementById('promoMonthField').style.display = yes ? 'flex' : 'none';
-  if(yes) toggleOption();
+  const yes=document.getElementById('promoted').value==='Yes';
+  document.getElementById('gradeMonthField').style.display=yes?'none':'flex';
+  document.getElementById('optionField').style.display=yes?'flex':'none';
+  document.getElementById('promoMonthField').style.display=yes?'flex':'none';
+  if(yes)toggleOption();
 }
 function toggleOption(){
-  const opt = document.getElementById('option').value;
-  // Option A: "Promotion applicable month", Option B: "Grade Increment Month"
-  const lbl = document.getElementById('promoMonthLabel');
-  lbl.textContent = opt==='A' ? 'Promotion Applicable Month' : 'Grade Increment Month';
+  const opt=document.getElementById('option').value;
+  document.getElementById('promoMonthLabel').textContent=opt==='A'?'Promotion Month':'Grade Increment Month';
 }
 function switchTab(name){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['summary','monthly'][i]===name));
   document.getElementById('summaryTabContent').classList.toggle('active',name==='summary');
   document.getElementById('monthTabContent').classList.toggle('active',name==='monthly');
 }
-
-// ============================================================
-// RESET
-// ============================================================
 function resetForm(){
-  document.getElementById('taxType').value    = 'Single';
-  document.getElementById('gender').value     = 'Male';
-  document.getElementById('dept').value       = 'Admin';
-  document.getElementById('post').value       = 'Junior Associate';
-  document.getElementById('grade').value      = '0';
-  document.getElementById('gradeMonth').value = 'March';
-  document.getElementById('promoted').value   = 'No';
-  document.getElementById('option').value     = 'A';
-  document.getElementById('promoMonth').value = 'March';
-  document.getElementById('technical').value  = '';
-  document.getElementById('entertainment').value = '';
-  document.getElementById('festival').value   = '';
-  document.getElementById('leave').value      = '';
-  document.getElementById('bonus').value      = '';
-  document.getElementById('lifeIns').value    = '';
-  document.getElementById('citMonthly').value = '';
-  document.getElementById('citLump').value    = '';
+  document.getElementById('taxType').value='Single';
+  document.getElementById('gender').value='Male';
+  document.getElementById('dept').value='Admin';
+  document.getElementById('post').value='Junior Associate';
+  document.getElementById('grade').value='0';
+  document.getElementById('gradeMonth').value='March';
+  document.getElementById('promoted').value='No';
+  document.getElementById('option').value='A';
+  document.getElementById('promoMonth').value='October';
+  ['technical','entertainment','festival','leave','bonus','lifeIns','citMonthly','citLump']
+    .forEach(id=>document.getElementById(id).value='');
   togglePromo();
-  document.getElementById('summaryContent').innerHTML='<div class="placeholder"><div class="pi">🧮</div><p>Fill in your details and click <strong>Calculate Tax</strong>.</p></div>';
-  document.getElementById('summaryTabContent').innerHTML='<div class="placeholder"><div class="pi">📋</div><p>Results will appear here.</p></div>';
-  document.getElementById('monthTabContent').innerHTML='<div class="placeholder"><div class="pi">📅</div><p>Month-by-month breakdown will appear here.</p></div>';
-  document.getElementById('slabContent').innerHTML='<div class="placeholder"><div class="pi">📈</div><p>Tax slab breakdown will appear after calculation.</p></div>';
-  document.getElementById('optBox').style.display='none';
+  document.getElementById('heroContent').innerHTML='<div class="placeholder"><div class="pi">🧮</div><p>Enter your details and click <strong style="color:#9ba8bd;">Calculate Tax</strong>.</p></div>';
+  document.getElementById('statRow').style.display='none';
+  document.getElementById('optCard').style.display='none';
+  document.getElementById('summaryTabContent').innerHTML='<div class="placeholder"><div class="pi">📋</div><p>Breakdown will appear after calculation.</p></div>';
+  document.getElementById('monthTabContent').innerHTML='<div class="placeholder"><div class="pi">📅</div><p>Month-by-month detail will appear here.</p></div>';
+  document.getElementById('slabContent').innerHTML='<div class="placeholder" style="padding:20px 0 0;"><p style="color:var(--grey2);">Tax slab breakdown will appear here.</p></div>';
   switchTab('summary');
 }
 
-// ============================================================
-// CORE SALARY ENGINE
-// Builds a list of monthly segments, each with:
-//   {month, nepali, days, basic, techAllow, allowance, special, isPartial, label}
-// ============================================================
-function buildMonthlyRows(inputs){
-  const {post, gradeNum, promoted, option, eventMonth, technical} = inputs;
-  // eventMonth = grade increment month (no promo) OR promotion month (Option A or B)
-
-  const cadre = CADRE[post];
-  const postIdx = POST_ORDER.indexOf(post);
-  const oldPost = postIdx > 0 ? POST_ORDER[postIdx-1] : post;
-  const oldCadre = CADRE[oldPost];
-
-  // Basic pay = base + grade*n (capped at max)
-  // Before grade increment: gradeNum increments applied
-  // After grade increment: gradeNum+1 increments applied
-  function getBasic(c, gn){ return Math.min(c.basic + c.grade*gn, c.max); }
-
-  const eventIdx = fyIdx(eventMonth); // index in FY_MONTHS (0=July)
-
-  // We build a list of "segments" — each is a contiguous run of days at a given (post, grade)
-  // Structure: [{fyMIdx, post, cadre, gradeN, days, label}]
-  // The FY starts 16 July (day 16 of July) and ends 15 July next year
-  // So:
-  //   Segment 0: 16 days of July (first) at opening config
-  //   Segments 1..11: full months Aug→Jun
-  //   Segment 12: 16 days of July (last) at closing config
-
-  // Determine the post & grade for any given FY month index and whether we're before/after event
-  function config(fyMIdx, isAfterEvent){
-    if(!promoted){
-      // No promotion: same post always; grade increments at eventMonth
-      const gn = isAfterEvent ? gradeNum+1 : gradeNum;
-      return {cadre, post, gn};
-    }
-    // Promoted, Option A: before promoMonth → old post old grade; after → current post with grade
-    if(option==='A'){
-      if(!isAfterEvent){
-        // Before promotion: salary at old post (old cadre) with gradeNum (no increment yet — increment happens at promo)
-        return {cadre: oldCadre, post: oldPost, gn: gradeNum};
-      } else {
-        // After promotion: current post, with gradeNum (promotion gives the grade bump)
-        return {cadre, post, gn: gradeNum};
-      }
-    }
-    // Option B: before eventMonth → old post with same grade (grade increments at eventMonth)
-    //           after eventMonth → current post with gradeNum (current post grade)
-    if(!isAfterEvent){
-      return {cadre: oldCadre, post: oldPost, gn: gradeNum};
-    } else {
-      return {cadre, post, gn: gradeNum};
-    }
+/* BUILD MONTHLY ROWS */
+function buildMonthlyRows({post,gradeNum,promoted,option,eventMonth,technical}){
+  const cadre=CADRE[post];
+  const postIdx=POST_ORDER.indexOf(post);
+  const oldPost=postIdx>0?POST_ORDER[postIdx-1]:post;
+  const oldCadre=CADRE[oldPost];
+  function getBasic(c,gn){return Math.min(c.basic+c.grade*gn,c.max);}
+  const eventIdx=fyIdx(eventMonth);
+  function config(i,isAfter){
+    if(!promoted) return{cadre,gn:isAfter?gradeNum+1:gradeNum};
+    if(option==='A') return isAfter?{cadre,gn:gradeNum}:{cadre:oldCadre,gn:gradeNum};
+    return isAfter?{cadre,gn:gradeNum}:{cadre:oldCadre,gn:gradeNum};
   }
-
-  const rows = [];
-
-  // ── Segment 0: First 16 days of July ──
-  {
-    const isAfter = eventIdx === 0; // if event is July, after-event for rest of July
-    const cfg = config(0, false); // first 16 days always "before" event (event applies from full month)
-    const basicFull = getBasic(cfg.cadre, cfg.gn);
-    const days = 16; const totalDays = 31;
-    const tech = technical * (days/totalDays);
-    const basicWithTech = basicFull + technical; // for allowance base = basic+tech (full month equivalent)
-    const allowMonthly = basicWithTech * cfg.cadre.allow;
-    const sp  = specialAllow(basicFull, days, totalDays);
-    const cv  = convAllow(cfg.cadre.conv, days, totalDays);
-    rows.push({
-      fyMIdx:0, month:'July (first 16 days)', nepali:'Shrawan Start', days,
-      basicSeg: basicFull*(days/totalDays),
-      techSeg:  tech,
-      allowSeg: allowMonthly*(days/totalDays),
-      specialSeg: sp,
-      convSeg: cv,
-      basicFull, techFull: technical, allowFull: allowMonthly,
-      cadre: cfg.cadre, isPartial:true, label:'Partial'
-    });
+  const rows=[];
+  // First 16 days July
+  {const cfg=config(0,false);const bF=getBasic(cfg.cadre,cfg.gn);
+   const d=16,td=31,tech=technical*(d/td);
+   const aM=(bF+technical)*cfg.cadre.allow;
+   rows.push({month:'July (first 16 days)',nepali:'Shrawan Start',days:d,isPartial:true,
+     basicSeg:bF*(d/td),techSeg:tech,allowSeg:aM*(d/td),
+     specialSeg:specialAllow(bF,d,td),convSeg:convAllow(cfg.cadre.conv,d,td)});}
+  // Aug–Jun
+  for(let i=1;i<=11;i++){
+    const m=FY_MONTHS[i];
+    const isAfter=eventIdx===0?true:i>=eventIdx;
+    const cfg=config(i,isAfter);
+    const bF=getBasic(cfg.cadre,cfg.gn);
+    const aM=(bF+technical)*cfg.cadre.allow;
+    rows.push({month:m.name,nepali:m.nepali,days:m.days,isPartial:false,
+      basicSeg:bF,techSeg:technical,allowSeg:aM,
+      specialSeg:specialAllow(bF,m.days,m.days),convSeg:convAllow(cfg.cadre.conv,m.days,m.days)});
   }
-
-  // ── Segments 1..11: Full months Aug→Jun ──
-  for(let i=1; i<=11; i++){
-    const m = FY_MONTHS[i];
-    const isAfter = i >= eventIdx && eventIdx > 0;
-    // edge: if eventIdx=0 (July event), all months are "after"
-    const isAfterEv = eventIdx===0 ? true : (i >= eventIdx);
-    const cfg = config(i, isAfterEv);
-    const basicFull = getBasic(cfg.cadre, cfg.gn);
-    const basicWithTech = basicFull + technical;
-    const allowMonthly = basicWithTech * cfg.cadre.allow;
-    const sp = specialAllow(basicFull, m.days, m.days); // full month
-    const cv = convAllow(cfg.cadre.conv, m.days, m.days); // full month conv
-    rows.push({
-      fyMIdx:i, month:m.name, nepali:m.nepali, days:m.days,
-      basicSeg:   basicFull,
-      techSeg:    technical,
-      allowSeg:   allowMonthly,
-      specialSeg: sp,
-      convSeg:    cv,
-      basicFull, techFull: technical, allowFull: allowMonthly,
-      cadre: cfg.cadre, isPartial:false, label:''
-    });
-  }
-
-  // ── Segment 12: Last 16 days of July (end of FY) ──
-  {
-    // End of FY: after all events → fully after event
-    const cfg = config(11, true);
-    const basicFull = getBasic(cfg.cadre, cfg.gn);
-    const days=16; const totalDays=31;
-    const tech = technical*(days/totalDays);
-    const basicWithTech = basicFull + technical;
-    const allowMonthly = basicWithTech * cfg.cadre.allow;
-    const sp  = specialAllow(basicFull, days, totalDays);
-    const cv  = convAllow(cfg.cadre.conv, days, totalDays);
-    rows.push({
-      fyMIdx:12, month:'July (last 16 days)', nepali:'Ashadh End', days,
-      basicSeg:   basicFull*(days/totalDays),
-      techSeg:    tech,
-      allowSeg:   allowMonthly*(days/totalDays),
-      specialSeg: sp,
-      convSeg:    cv,
-      basicFull, techFull: technical, allowFull: allowMonthly,
-      cadre: cfg.cadre, isPartial:true, label:'Partial'
-    });
-  }
-
+  // Last 16 days July
+  {const cfg=config(11,true);const bF=getBasic(cfg.cadre,cfg.gn);
+   const d=16,td=31,tech=technical*(d/td);
+   const aM=(bF+technical)*cfg.cadre.allow;
+   rows.push({month:'July (last 16 days)',nepali:'Ashadh End',days:d,isPartial:true,
+     basicSeg:bF*(d/td),techSeg:tech,allowSeg:aM*(d/td),
+     specialSeg:specialAllow(bF,d,td),convSeg:convAllow(cfg.cadre.conv,d,td)});}
   return rows;
 }
 
-// ============================================================
-// MAIN CALCULATE
-// ============================================================
+/* CALCULATE */
 function calculate(){
-  const taxType      = document.getElementById('taxType').value;
-  const gender       = document.getElementById('gender').value;
-  const post         = document.getElementById('post').value;
-  const gradeNum     = parseInt(document.getElementById('grade').value)||0;
-  const promoted     = document.getElementById('promoted').value==='Yes';
-  const option       = document.getElementById('option').value;
-  const gradeMonth   = document.getElementById('gradeMonth').value;
-  const promoMonth   = document.getElementById('promoMonth').value;
-  const technical    = parseFloat(document.getElementById('technical').value)||0;
+  const taxType    =document.getElementById('taxType').value;
+  const gender     =document.getElementById('gender').value;
+  const post       =document.getElementById('post').value;
+  const gradeNum   =parseInt(document.getElementById('grade').value)||0;
+  const promoted   =document.getElementById('promoted').value==='Yes';
+  const option     =document.getElementById('option').value;
+  const gradeMonth =document.getElementById('gradeMonth').value;
+  const promoMonth =document.getElementById('promoMonth').value;
+  const technical  =parseFloat(document.getElementById('technical').value)||0;
+  const eventMonth =promoted?promoMonth:gradeMonth;
+  const entertainment=parseFloat(document.getElementById('entertainment').value)||0;
+  const festival   =parseFloat(document.getElementById('festival').value)||0;
+  const leaveEnc   =parseFloat(document.getElementById('leave').value)||0;
+  const bonus      =parseFloat(document.getElementById('bonus').value)||0;
+  const MEDICAL    =20000;
+  const lifeIns    =parseFloat(document.getElementById('lifeIns').value)||0;
+  const citMonthly =parseFloat(document.getElementById('citMonthly').value)||0;
+  const citLump    =parseFloat(document.getElementById('citLump').value)||0;
 
-  // eventMonth: for no-promo = gradeMonth; for promo A = promoMonth; for promo B = promoMonth (grade increment)
-  const eventMonth = promoted ? promoMonth : gradeMonth;
+  const monthRows=buildMonthlyRows({post,gradeNum,promoted,option,eventMonth,technical});
+  let aBasic=0,aTech=0,aAllow=0,aSpecial=0,aConv=0;
+  for(const r of monthRows){aBasic+=r.basicSeg;aTech+=r.techSeg;aAllow+=r.allowSeg;aSpecial+=r.specialSeg;aConv+=r.convSeg;}
 
-  const entertainment= parseFloat(document.getElementById('entertainment').value)||0;
-  const festival     = parseFloat(document.getElementById('festival').value)||0;
-  const leaveEnc     = parseFloat(document.getElementById('leave').value)||0;
-  const bonus        = parseFloat(document.getElementById('bonus').value)||0;
-  const MEDICAL      = 20000;
-  const lifeIns      = parseFloat(document.getElementById('lifeIns').value)||0;
-  const citMonthly   = parseFloat(document.getElementById('citMonthly').value)||0;
-  const citLump      = parseFloat(document.getElementById('citLump').value)||0;
+  const empPF=aBasic*0.10,emplPF=aBasic*0.10;
+  const medIns=getMedIns(gender,taxType);
+  const gross=aBasic+aTech+aAllow+aSpecial+aConv+festival+leaveEnc+entertainment+bonus+MEDICAL+medIns.total+empPF;
+  const oneThird=gross/3;
+  const citTotal=citMonthly*12+citLump;
+  const pfTotal=empPF+emplPF;
+  const totalContrib=pfTotal+citTotal;
+  const retDed=Math.min(totalContrib,oneThird,500000);
+  const lifeInsDed=Math.min(lifeIns,40000);
+  const healthDed=medIns.employee;
+  const totalDed=retDed+lifeInsDed+healthDed;
+  const taxable=Math.max(0,gross-totalDed);
+  const {totalTax,rebateAmt,netTax,rows:slabRows,rebatePct}=calcTax(taxable,taxType,gender);
+  const maxAllowed=Math.min(oneThird,500000);
+  const citRem=Math.max(0,maxAllowed-totalContrib);
+  const citSave=Math.max(0,netTax-calcTax(Math.max(0,taxable-citRem),taxType,gender).netTax);
 
-  // Build month rows
-  const monthRows = buildMonthlyRows({post, gradeNum, promoted, option, eventMonth, technical});
+  const postIdx2=POST_ORDER.indexOf(post);
+  const oldPost2=postIdx2>0?POST_ORDER[postIdx2-1]:post;
+  const promoDesc=!promoted?`Grade increment: ${gradeMonth}`
+    :option==='A'?`Promoted to ${post} | Month: ${promoMonth}`
+    :`Option B: ${oldPost2}→${post} | Month: ${promoMonth}`;
 
-  // Annual totals from monthly engine
-  let annualBasic=0, annualTech=0, annualAllow=0, annualSpecial=0, annualConv=0;
-  for(const r of monthRows){
-    annualBasic   += r.basicSeg;
-    annualTech    += r.techSeg;
-    annualAllow   += r.allowSeg;
-    annualSpecial += r.specialSeg;
-    annualConv    += r.convSeg;
-  }
-
-  // PF: 10% of annual basic (employer + employee)
-  const empPF  = annualBasic * 0.10;
-  const emplPF = annualBasic * 0.10;
-
-  const medIns = getMedIns(gender, taxType);
-
-  // Gross salary
-  const gross = annualBasic + annualTech + annualAllow + annualSpecial + annualConv
-              + festival + leaveEnc + entertainment + bonus
-              + MEDICAL + medIns.total + empPF;
-
-  // Deductions
-  const oneThird      = gross / 3;
-  const citTotal      = citMonthly*12 + citLump;
-  const pfTotal       = empPF + emplPF;
-  const totalContrib  = pfTotal + citTotal;
-  const retDed        = Math.min(totalContrib, oneThird, 500000);
-  const lifeInsDed    = Math.min(lifeIns, 40000);
-  const healthInsDed  = medIns.employee;
-  const totalDed      = retDed + lifeInsDed + healthInsDed;
-
-  const taxableIncome = Math.max(0, gross - totalDed);
-
-  const {totalTax, rebateAmt, netTax, rows:slabRows, rebatePct} = calcTax(taxableIncome, taxType, gender);
-
-  // CIT optimizer
-  const maxAllowed    = Math.min(oneThird, 500000);
-  const citRemaining  = Math.max(0, maxAllowed - totalContrib);
-  const taxIfMax      = calcTax(Math.max(0,taxableIncome-citRemaining),taxType,gender).netTax;
-  const citSaving     = Math.max(0, netTax - taxIfMax);
-
-  // Post label for header
-  const postIdx2 = POST_ORDER.indexOf(post);
-  const oldPost2 = postIdx2>0 ? POST_ORDER[postIdx2-1] : post;
-  const promoDesc = !promoted ? `No promotion | Grade increment: ${gradeMonth}`
-    : option==='A' ? `Promoted to ${post} | Promo month: ${promoMonth}`
-    : `Option B: ${oldPost2} → ${post} | Month: ${promoMonth}`;
-
-  // ── RENDER ──
-  renderSummary({taxType,gender,gross,totalDed,taxableIncome,totalTax,rebateAmt,netTax,rebatePct});
-  renderSummaryTable({
-    post, oldPost:oldPost2, promoted, option, promoDesc, eventMonth, taxType, gender,
-    annualBasic, annualTech, annualAllow, annualSpecial, annualConv,
-    festival, leaveEnc, entertainment, bonus, MEDICAL,
-    medInsTotal:medIns.total, medInsEmp:medIns.employee,
-    empPF, emplPF, pfTotal, citTotal, gross,
-    retDed, lifeInsDed, healthInsDed, totalDed, taxableIncome,
-    totalTax, rebateAmt, netTax, rebatePct, oneThird
-  });
-  renderMonthTable(monthRows, annualBasic, annualTech, annualAllow, annualSpecial, annualConv);
-  renderSlabs(slabRows, totalTax, netTax);
-  renderOptimizer(citRemaining, citSaving);
-}
-
-// ============================================================
-function renderSummary(d){
-  document.getElementById('summaryContent').innerHTML=`
-    <div class="sg">
-      <div class="sc"><div class="sl">Gross Income</div><div class="sv gold">रू ${fmt(d.gross)}</div><div class="ss">Annual total</div></div>
-      <div class="sc"><div class="sl">Taxable Income</div><div class="sv blue">रू ${fmt(d.taxableIncome)}</div><div class="ss">After रू ${fmt(d.totalDed)} deductions</div></div>
-      <div class="sc"><div class="sl">Tax to Pay</div><div class="sv red">रू ${fmt(d.netTax)}</div><div class="ss">${d.rebatePct>0?'10% rebate applied':'No rebate'}</div></div>
+  // Hero
+  document.getElementById('heroContent').innerHTML=`
+    <div class="hero-label">Monthly TDS</div>
+    <div class="hero-amount">
+      <span class="hero-rupe">रू</span>
+      <span class="hero-num">${fmt(netTax/12)}</span>
+      <span class="hero-currency">NPR</span>
     </div>
-    <div class="mrow">
-      <div class="mi"><span class="mll">Tax Type</span><span class="mv">${d.taxType}</span></div>
-      <div class="mi"><span class="mll">Gender</span><span class="mv">${d.gender}</span></div>
-      <div class="mi"><span class="mll">Pre-Rebate Tax</span><span class="mv">रू ${fmt(d.totalTax)}</span></div>
-      <div class="mi"><span class="mll">Rebate (${d.rebatePct>0?'10%':'0%'})</span><span class="mv g">रू ${fmt(d.rebateAmt)}</span></div>
-      <div class="mi"><span class="mll">Monthly TDS</span><span class="mv r">रू ${fmt(d.netTax/12)}</span></div>
+    <div class="hero-sub">Annual tax: रू ${fmt(netTax)} ${rebatePct>0?'(10% rebate applied)':''}</div>
+    <div class="hero-meta">
+      <div class="hm-item"><span class="hm-label">Tax Type</span><span class="hm-val">${taxType}</span></div>
+      <div class="hm-item"><span class="hm-label">Gender</span><span class="hm-val">${gender}</span></div>
+      <div class="hm-item"><span class="hm-label">Pre-Rebate</span><span class="hm-val c">रू ${fmt(totalTax)}</span></div>
+      <div class="hm-item"><span class="hm-label">Rebate</span><span class="hm-val g">रू ${fmt(rebateAmt)}</span></div>
+      <div class="hm-item"><span class="hm-label">Net Payable</span><span class="hm-val r">रू ${fmt(netTax)}</span></div>
     </div>`;
-}
 
-function renderSummaryTable(d){
-  const rebateLbl = d.gender==='Female'&&d.taxType==='Single'?'10%':'0%';
-  const iRows = [
-    ['Basic Pay (Annual)',            d.annualBasic,   '16-day split July included'],
-    ['Technical Allowance (Annual)',  d.annualTech,    'Included in basic base for allowance calc'],
-    ['Allowance (Annual)',            d.annualAllow,   '% of (Basic + Technical) per cadre'],
-    ['Special Allowance (Annual)',    d.annualSpecial, 'Lower of 17% of basic or रू 7,000/mo (min रू 3,612.90 for 16-day)'],
-    ['Conveyance Allowance (Annual)', d.annualConv,    'Per cadre; prorated 16/31 for partial July'],
-    ['Entertainment & Other',         d.entertainment, ''],
-    ['Festival Allowance',            d.festival,      ''],
-    ['Leave Encashment',              d.leaveEnc,      ''],
-    ['Bonus',                         d.bonus,         ''],
-    ['Medical Benefit',               d.MEDICAL,       'Fixed'],
-    ['Medical Insurance',             d.medInsTotal,   'Employee + Employer'],
-    ['Employer PF',                   d.empPF,         '10% of Annual Basic'],
-  ];
-  const dRows = [
-    ['Retirement Fund (PF + CIT)', d.retDed,    `PF रू ${fmt(d.pfTotal)} + CIT रू ${fmt(d.citTotal)} → Min(1/3, 5L, actual)`],
-    ['Life Insurance Premium',     d.lifeInsDed,''],
-    ['Health Insurance Premium',   d.healthInsDed,''],
-  ];
-  const iHtml = iRows.map(([l,v,n])=>`<tr><td>${l}${n?`<br><span style="font-size:.66rem;color:var(--muted);">${n}</span>`:''}</td><td class="num">रू ${fmt(v)}</td></tr>`).join('');
-  const dHtml = dRows.map(([l,v,n])=>`<tr class="ded"><td>− ${l}${n?`<br><span style="font-size:.66rem;color:inherit;opacity:.75;">${n}</span>`:''}</td><td class="num">(${fmt(v)})</td></tr>`).join('');
+  // Stat cards
+  document.getElementById('statGross').textContent=fmt(gross);
+  document.getElementById('statTaxable').textContent=fmt(taxable);
+  document.getElementById('statRow').style.display='grid';
 
+  // Optimization
+  const oc=document.getElementById('optCard');
+  if(citRem>0&&citSave>0){
+    oc.style.display='block';
+    oc.innerHTML=`
+      <div class="opt-header"><span class="opt-icon">ⓘ</span><span class="opt-title">Optimization Hub</span></div>
+      <div class="opt-desc">You are under-utilizing your retirement deduction. By maximizing CIT contributions, you can shield more income from taxation.</div>
+      <div class="opt-saving">
+        <div class="opt-saving-label">Max Potential Savings</div>
+        <div class="opt-saving-amount">
+          <span class="opt-saving-rupe">रू</span>
+          <span class="opt-saving-num">${fmt(citSave)}</span>
+        </div>
+      </div>`;
+  } else { oc.style.display='none'; }
+
+  // Summary table
+  const iRows=[
+    ['Basic Pay',               aBasic],
+    ['Technical Allowance',     aTech],
+    ['Allowance',               aAllow],
+    ['Special Allowance',       aSpecial],
+    ['Conveyance Allowance',    aConv],
+    ['Entertainment & Other',   entertainment],
+    ['Festival Allowance',      festival],
+    ['Leave Encashment',        leaveEnc],
+    ['Bonus',                   bonus],
+    ['Medical Benefit',         MEDICAL],
+    ['Medical Insurance',       medIns.total],
+    ['Employer PF',             empPF],
+  ];
+  const dRows=[
+    ['Retirement Fund (PF + CIT)',retDed],
+    ['Life Insurance',            lifeInsDed],
+    ['Health Insurance',          healthDed],
+  ];
+  const iHtml=iRows.map(([l,v])=>`<tr><td>${l}</td><td class="r">रू ${fmt(v)}</td></tr>`).join('');
+  const dHtml=dRows.map(([l,v])=>`<tr class="ded"><td>− ${l}</td><td class="r">(${fmt(v)})</td></tr>`).join('');
+  const rLbl=rebatePct>0?'10%':'0%';
   document.getElementById('summaryTabContent').innerHTML=`
-    <div class="ph"><h2>Income Tax Computation — FY 2081/82</h2><p>${d.promoDesc} | ${d.taxType} | ${d.gender}</p></div>
-    <div class="mrow" style="margin:14px 18px 4px;">
-      <div class="mi"><span class="mll">Post</span><span class="mv">${d.post}</span></div>
-      ${d.promoted?`<div class="mi"><span class="mll">Option</span><span class="mv">${d.option}</span></div><div class="mi"><span class="mll">${d.option==='A'?'Promo Month':'Grade Month'}</span><span class="mv">${d.eventMonth}</span></div>`:`<div class="mi"><span class="mll">Grade Month</span><span class="mv">${d.eventMonth}</span></div>`}
-    </div>
-    <table class="dt">
-      <thead><tr><th>Description</th><th style="text-align:right;">Amount (NPR)</th></tr></thead>
+    <div class="ph"><h2>Income Tax — FY 2081/82</h2><p>${promoDesc} | ${taxType} | ${gender}</p></div>
+    <table class="bt">
+      <thead><tr><th>Description</th><th class="r">Amount (NPR)</th></tr></thead>
       <tbody>
         <tr class="shd"><td colspan="2">Income Components</td></tr>
         ${iHtml}
-        <tr class="tot"><td><strong>Total Gross Income</strong></td><td class="num"><strong>रू ${fmt(d.gross)}</strong></td></tr>
+        <tr class="tot"><td><strong>Total Gross Income</strong></td><td class="r"><strong>रू ${fmt(gross)}</strong></td></tr>
         <tr class="shd"><td colspan="2">Allowable Deductions</td></tr>
         ${dHtml}
-        <tr class="tot"><td><strong>Taxable Income</strong></td><td class="num"><strong>रू ${fmt(d.taxableIncome)}</strong></td></tr>
+        <tr class="tot"><td><strong>Taxable Income</strong></td><td class="r"><strong>रू ${fmt(taxable)}</strong></td></tr>
         <tr class="shd"><td colspan="2">Tax Computation</td></tr>
-        <tr><td>Total Tax (before rebate)</td><td class="num">रू ${fmt(d.totalTax)}</td></tr>
-        <tr class="ded"><td>− Tax Rebate (${rebateLbl})</td><td class="num">(${fmt(d.rebateAmt)})</td></tr>
-        <tr class="tot"><td><strong>Annual Tax to be Paid</strong></td><td class="num"><strong>रू ${fmt(d.netTax)}</strong></td></tr>
-        <tr><td style="color:var(--muted);">Monthly TDS (÷12)</td><td class="num" style="color:var(--muted);">रू ${fmt(d.netTax/12)}</td></tr>
+        <tr><td>Tax (before rebate)</td><td class="r">रू ${fmt(totalTax)}</td></tr>
+        <tr class="ded"><td>− Rebate (${rLbl})</td><td class="r">(${fmt(rebateAmt)})</td></tr>
+        <tr class="tot"><td><strong>Annual Tax</strong></td><td class="r"><strong>रू ${fmt(netTax)}</strong></td></tr>
+        <tr><td style="color:var(--grey2)">Monthly TDS</td><td class="r" style="color:var(--grey1)">रू ${fmt(netTax/12)}</td></tr>
       </tbody>
     </table>
-    <div class="table-actions">
-      <button class="prbtn" onclick="window.print()">🖨️ Print Income Breakdown</button>
+    <div class="tbl-actions">
+      <button class="prbtn" onclick="window.print()">🖨 Print</button>
     </div>`;
-}
 
-function renderMonthTable(rows, totBasic, totTech, totAllow, totSpec, totConv){
-  const hdr=`<thead><tr>
-    <th style="text-align:left;">Month</th>
-    <th>Days</th>
-    <th>Basic</th>
-    <th>Tech Allow</th>
-    <th>Allowance</th>
-    <th>Special Allow</th>
-    <th>Conveyance</th>
-    <th>Total</th>
-  </tr></thead>`;
-
+  // Month table
   let grand=0;
-  const bodyRows = rows.map(r=>{
-    const total = r.basicSeg+r.techSeg+r.allowSeg+r.specialSeg+r.convSeg;
-    grand+=total;
+  const mBody=monthRows.map(r=>{
+    const t=r.basicSeg+r.techSeg+r.allowSeg+r.specialSeg+r.convSeg; grand+=t;
     return `<tr class="${r.isPartial?'part-row':''}">
-      <td>${r.month}<br><span style="font-size:.65rem;color:var(--muted);">${r.nepali}${r.label?' · '+r.label:''}</span></td>
-      <td>${r.days}</td>
-      <td>${fmt(r.basicSeg)}</td>
-      <td>${fmt(r.techSeg)}</td>
-      <td>${fmt(r.allowSeg)}</td>
-      <td>${fmt(r.specialSeg)}</td>
-      <td>${fmt(r.convSeg)}</td>
-      <td style="color:var(--accent);font-weight:600;">${fmt(total)}</td>
-    </tr>`;
-  }).join('');
-
+      <td>${r.month}<br><span style="font-size:.63rem;color:var(--grey2);">${r.nepali}</span></td>
+      <td>${r.days}</td><td>${fmt(r.basicSeg)}</td><td>${fmt(r.techSeg)}</td>
+      <td>${fmt(r.allowSeg)}</td><td>${fmt(r.specialSeg)}</td><td>${fmt(r.convSeg)}</td>
+      <td style="color:var(--cyan);font-weight:700;">${fmt(t)}</td>
+    </tr>`;}).join('');
   document.getElementById('monthTabContent').innerHTML=`
-    <div style="overflow-x:auto;padding:4px 0;">
-    <table class="month-table">
-      ${hdr}
-      <tbody>${bodyRows}</tbody>
+    <div style="overflow-x:auto;">
+    <table class="mt">
+      <thead><tr><th style="text-align:left;">Month</th><th>Days</th><th>Basic</th>
+        <th>Tech</th><th>Allow</th><th>Special</th><th>Conv.</th><th>Total</th></tr></thead>
+      <tbody>${mBody}</tbody>
       <tfoot><tr class="tot-row">
-        <td>Annual Total</td><td>—</td>
-        <td>${fmt(totBasic)}</td>
-        <td>${fmt(totTech)}</td>
-        <td>${fmt(totAllow)}</td>
-        <td>${fmt(totSpec)}</td>
-        <td>${fmt(totConv)}</td>
-        <td>${fmt(grand)}</td>
+        <td colspan="2">Annual Total</td>
+        <td>${fmt(aBasic)}</td><td>${fmt(aTech)}</td>
+        <td>${fmt(aAllow)}</td><td>${fmt(aSpecial)}</td>
+        <td>${fmt(aConv)}</td><td>${fmt(grand)}</td>
       </tr></tfoot>
-    </table>
-    </div>
-    <div style="padding:8px 18px 12px;font-size:.72rem;color:var(--muted);">
-      ★ Partial months = 16 days of July (FY open &amp; FY close). 
-      Special allowance = lower of 17% of basic or रू 7,000/mo (16-day min = रू 3,612.90). 
-      Conveyance = per-cadre rate, prorated 16/31 for partial months.
-    </div>`;
-}
+    </table></div>
+    <p style="padding:8px 20px 12px;font-size:.7rem;color:var(--grey2);">
+      ★ Partial = 16 days (FY open & close). Special = lower of 17% basic or रू 7,000/mo.
+    </p>`;
 
-const SCOLS=['#3498db','#2ecc71','#f39c12','#e74c3c','#9b59b6','#1abc9c'];
-const SNAMES=['1% Slab','10% Slab','20% Slab','30% Slab','36% Slab','39% Slab'];
-
-function renderSlabs(rows, totalTax, netTax){
+  // Slabs
   if(totalTax===0){
-    document.getElementById('slabContent').innerHTML='<div class="placeholder"><div class="pi">🎉</div><p>No tax applicable!</p></div>';
+    document.getElementById('slabContent').innerHTML='<p style="color:var(--teal);padding:10px 0;">No tax applicable!</p>';
     return;
   }
-  const html=rows.map((s,i)=>{
-    if(s.taxable<=0) return'';
+  const sNames=['1% Bracket','10% Bracket','20% Bracket','30% Bracket','36% Bracket','39% Bracket'];
+  const sHtml=slabRows.map((s,i)=>{
+    if(s.taxable<=0)return'';
     const pct=(s.tax/totalTax*100).toFixed(1);
-    return`<div class="sr">
-      <div class="sm"><span class="slb">${SNAMES[i]} (रू ${fmt(s.f)}–${s.t>=1e11?'∞':fmt(s.t)} @ ${s.r*100}%)</span>
-      <span class="sa" style="color:${SCOLS[i]}">रू ${fmt(s.tax)}</span></div>
-      <div class="bbg"><div class="bfill" style="width:${pct}%;background:${SCOLS[i]};"></div></div>
-    </div>`;
-  }).join('');
+    return`<div class="slab-item">
+      <div class="slab-meta">
+        <span class="slab-name">${sNames[i]}</span>
+        <span class="slab-amt"><span class="slab-rupe">रू</span>${fmt(s.tax)}</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;"></div></div>
+    </div>`;}).join('');
   document.getElementById('slabContent').innerHTML=`
-    <div class="slab-wrap">${html}
-      <div style="border-top:1px solid var(--border);padding-top:11px;margin-top:2px;display:flex;justify-content:space-between;">
-        <span style="font-size:.78rem;color:var(--muted);">Total (before rebate)</span>
-        <span style="font-weight:700;color:var(--accent);">रू ${fmt(totalTax)}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-top:4px;">
-        <span style="font-size:.78rem;color:var(--green);">Net Tax (after rebate)</span>
-        <span style="font-weight:700;color:var(--green);">रू ${fmt(netTax)}</span>
-      </div>
+    ${sHtml}
+    <div class="slab-totals">
+      <div class="st-item"><span class="st-label">Total Tax</span><span class="st-val c">रू ${fmt(totalTax)}</span></div>
+      <div class="st-item" style="text-align:right;"><span class="st-label">Net Payable</span><span class="st-val g">रू ${fmt(netTax)}</span></div>
     </div>`;
 }
 
-function renderOptimizer(rem, saving){
-  const box=document.getElementById('optBox');
-  if(rem<=0||saving<=0){box.style.display='none';return;}
-  box.style.display='flex';
-  box.className='opt-box';
-  box.innerHTML=`
-    <div class="oi">💡</div>
-    <div class="ot">
-      <div class="tt">CIT Optimization Opportunity</div>
-      <div class="td2">You have रू ${fmt(rem)} of unused retirement fund deduction limit.<br>Increasing CIT contributions could reduce your tax liability.</div>
-    </div>
-    <div class="os"><div class="am">रू ${fmt(saving)}</div><div class="sl">Potential Saving</div></div>`;
-}
-
-// Init
 togglePromo();
 </script>
+<footer>
+  <div class="footer-inner">
+    <span class="footer-icon">🧮</span>
+    <span class="footer-text">Income Tax Calculator — IRD Nepal</span>
+    <span class="footer-sep">·</span>
+    <span class="footer-fy">FY 2081/82</span>
+  </div>
+</footer>
+
+<style>
+footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(8,12,24,0.92);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 200;
+}
+.footer-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.footer-icon { font-size: 14px; opacity: .5; }
+.footer-text {
+  font-size: .72rem; font-weight: 600;
+  color: var(--grey1); letter-spacing: .05em;
+}
+.footer-sep { color: var(--grey2); font-size: .7rem; }
+.footer-fy  {
+  font-size: .7rem; font-weight: 600;
+  color: var(--cyan); letter-spacing: .06em;
+  background: rgba(0,212,255,0.1);
+  border: 1px solid rgba(0,212,255,0.2);
+  padding: 2px 9px; border-radius: 20px;
+}
+@media print { footer { display: none !important; } }
+</style>
+
 </body>
 </html>
