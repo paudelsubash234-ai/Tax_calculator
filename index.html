@@ -421,7 +421,7 @@ input::placeholder { color: var(--grey2); font-weight: 300; }
 
 <!-- ═══ HEADER ═══ -->
 <header>
-  <div class="logo-box">🧮</div>
+  <div class="logo-box">📊</div>
   <div>
     <div class="brand">
       <span class="brand-main">Income Tax Calculator</span>
@@ -444,7 +444,7 @@ input::placeholder { color: var(--grey2); font-weight: 300; }
       <select id="gender"><option value="Female">Female</option><option value="Male" selected>Male</option></select>
     </div>
     <select id="dept" style="width:100%;">
-      <option value="">Department</option>
+      <option value="" disabled>— Select Department —</option>
       <option value="Marketing">Marketing</option>
       <option value="Admin" selected>Admin</option>
     </select>
@@ -512,7 +512,7 @@ input::placeholder { color: var(--grey2); font-weight: 300; }
   <div class="group">
     <div class="group-label">Deductions</div>
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <input type="number" id="lifeIns" placeholder="Life Insurance Premium (Annual)" min="0">
+      <input type="number" id="lifeIns" placeholder="Life Insurance Premium (Annual)" value="40000" min="0">
       <input type="number" id="citMonthly" placeholder="CIT Contribution / Month" min="0">
       <input type="number" id="citLump" placeholder="CIT Lump Sum" min="0">
       <div class="note">Retirement deduction = min(⅓ gross, रू 5,00,000, actual PF + CIT)</div>
@@ -532,7 +532,7 @@ input::placeholder { color: var(--grey2); font-weight: 300; }
   <!-- Hero card -->
   <div class="hero-card" id="heroCard">
     <div id="heroContent">
-      <div class="placeholder"><div class="pi">🧮</div><p>Enter your details and click <strong style="color:#9ba8bd;">Calculate Tax</strong> to see your results.</p></div>
+      <div class="placeholder"><div class="pi">💡</div><p>Enter your details and click <strong style="color:#9ba8bd;">Calculate Tax</strong> to see your results.</p></div>
     </div>
   </div>
 
@@ -570,7 +570,7 @@ input::placeholder { color: var(--grey2); font-weight: 300; }
   <!-- Slab card -->
   <div class="slab-card" id="slabCard">
     <div class="slab-header">
-      <span class="slab-header-icon">🪣</span>
+      <span class="slab-header-icon">📈</span>
       <span class="slab-header-title">Tax Slab Distribution</span>
     </div>
     <div id="slabContent">
@@ -672,10 +672,11 @@ function resetForm(){
   document.getElementById('promoted').value='No';
   document.getElementById('option').value='A';
   document.getElementById('promoMonth').value='October';
-  ['technical','entertainment','festival','leave','bonus','lifeIns','citMonthly','citLump']
+  ['technical','entertainment','festival','leave','bonus','citMonthly','citLump']
     .forEach(id=>document.getElementById(id).value='');
+  document.getElementById('lifeIns').value='40000';
   togglePromo();
-  document.getElementById('heroContent').innerHTML='<div class="placeholder"><div class="pi">🧮</div><p>Enter your details and click <strong style="color:#9ba8bd;">Calculate Tax</strong>.</p></div>';
+  document.getElementById('heroContent').innerHTML='<div class="placeholder"><div class="pi">💡</div><p>Enter your details and click <strong style="color:#9ba8bd;">Calculate Tax</strong>.</p></div>';
   document.getElementById('statRow').style.display='none';
   document.getElementById('optCard').style.display='none';
   document.getElementById('summaryTabContent').innerHTML='<div class="placeholder"><div class="pi">📋</div><p>Breakdown will appear after calculation.</p></div>';
@@ -889,7 +890,7 @@ function calculate(){
     document.getElementById('slabContent').innerHTML='<p style="color:var(--teal);padding:10px 0;">No tax applicable!</p>';
     return;
   }
-  const sNames=['1% Bracket','10% Bracket','20% Bracket','30% Bracket','36% Bracket','39% Bracket'];
+  const sNames=['1% Slab','10% Slab','20% Slab','30% Slab','36% Slab','39% Slab'];
   const sHtml=slabRows.map((s,i)=>{
     if(s.taxable<=0)return'';
     const pct=(s.tax/totalTax*100).toFixed(1);
@@ -912,7 +913,7 @@ togglePromo();
 </script>
 <footer>
   <div class="footer-inner">
-    <span class="footer-icon">🧮</span>
+    <span class="footer-icon">📊</span>
     <span class="footer-text">Income Tax Calculator — IRD Nepal</span>
     <span class="footer-sep">·</span>
     <span class="footer-fy">FY 2081/82</span>
