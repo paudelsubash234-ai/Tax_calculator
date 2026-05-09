@@ -444,7 +444,6 @@ input::placeholder { color: var(--grey2); font-weight: 300; }
       <select id="gender"><option value="Female">Female</option><option value="Male" selected>Male</option></select>
     </div>
     <select id="dept" style="width:100%;">
-      <option value="" disabled>— Select Department —</option>
       <option value="Marketing">Marketing</option>
       <option value="Admin" selected>Admin</option>
     </select>
@@ -617,11 +616,13 @@ const FY_MONTHS = [
 ];
 function fyIdx(m){ return FY_MONTHS.findIndex(x=>x.name===m); }
 
-function specialAllow(basicFull,days,totalDays){
-  const r=days/totalDays;
-  return Math.min(basicFull*r*0.17, 7000*r);
+function specialAllow(basicFull, technical, days, totalDays){
+  const r = days / totalDays;
+  // Base = basic + technical (prorated for partial months)
+  const base = (basicFull + technical) * r;
+  return Math.min(base * 0.17, 7000 * r);
 }
-function convAllow(conv,days,totalDays){ return conv*(days/totalDays); }
+function convAllow(conv, days, totalDays){ return conv * (days / totalDays); }
 function getMedIns(gender,taxType){
   const emp=gender==='Female'?5500:4500;
   return {employee:emp,total:taxType==='Couple'?emp*1.5:emp};
@@ -686,11 +687,12 @@ function resetForm(){
 }
 
 /* BUILD MONTHLY ROWS */
-function buildMonthlyRows({post,gradeNum,promoted,option,eventMonth,technical}){
+function buildMonthlyRows({post,gradeNum,promoted,option,eventMonth,technical,dept}){
   const cadre=CADRE[post];
   const postIdx=POST_ORDER.indexOf(post);
   const oldPost=postIdx>0?POST_ORDER[postIdx-1]:post;
   const oldCadre=CADRE[oldPost];
+  const isAdmin = dept === 'Admin'; // conveyance only for Admin
   function getBasic(c,gn){return Math.min(c.basic+c.grade*gn,c.max);}
   const eventIdx=fyIdx(eventMonth);
   function config(i,isAfter){
@@ -705,7 +707,8 @@ function buildMonthlyRows({post,gradeNum,promoted,option,eventMonth,technical}){
    const aM=(bF+technical)*cfg.cadre.allow;
    rows.push({month:'July (first 16 days)',nepali:'Shrawan Start',days:d,isPartial:true,
      basicSeg:bF*(d/td),techSeg:tech,allowSeg:aM*(d/td),
-     specialSeg:specialAllow(bF,d,td),convSeg:convAllow(cfg.cadre.conv,d,td)});}
+     specialSeg:specialAllow(bF,technical,d,td),
+     convSeg:isAdmin?convAllow(cfg.cadre.conv,d,td):0});}
   // Aug–Jun
   for(let i=1;i<=11;i++){
     const m=FY_MONTHS[i];
@@ -715,7 +718,8 @@ function buildMonthlyRows({post,gradeNum,promoted,option,eventMonth,technical}){
     const aM=(bF+technical)*cfg.cadre.allow;
     rows.push({month:m.name,nepali:m.nepali,days:m.days,isPartial:false,
       basicSeg:bF,techSeg:technical,allowSeg:aM,
-      specialSeg:specialAllow(bF,m.days,m.days),convSeg:convAllow(cfg.cadre.conv,m.days,m.days)});
+      specialSeg:specialAllow(bF,technical,m.days,m.days),
+      convSeg:isAdmin?convAllow(cfg.cadre.conv,m.days,m.days):0});
   }
   // Last 16 days July
   {const cfg=config(11,true);const bF=getBasic(cfg.cadre,cfg.gn);
@@ -723,7 +727,8 @@ function buildMonthlyRows({post,gradeNum,promoted,option,eventMonth,technical}){
    const aM=(bF+technical)*cfg.cadre.allow;
    rows.push({month:'July (last 16 days)',nepali:'Ashadh End',days:d,isPartial:true,
      basicSeg:bF*(d/td),techSeg:tech,allowSeg:aM*(d/td),
-     specialSeg:specialAllow(bF,d,td),convSeg:convAllow(cfg.cadre.conv,d,td)});}
+     specialSeg:specialAllow(bF,technical,d,td),
+     convSeg:isAdmin?convAllow(cfg.cadre.conv,d,td):0});}
   return rows;
 }
 
@@ -731,6 +736,7 @@ function buildMonthlyRows({post,gradeNum,promoted,option,eventMonth,technical}){
 function calculate(){
   const taxType    =document.getElementById('taxType').value;
   const gender     =document.getElementById('gender').value;
+  const dept       =document.getElementById('dept').value;
   const post       =document.getElementById('post').value;
   const gradeNum   =parseInt(document.getElementById('grade').value)||0;
   const promoted   =document.getElementById('promoted').value==='Yes';
@@ -748,7 +754,7 @@ function calculate(){
   const citMonthly =parseFloat(document.getElementById('citMonthly').value)||0;
   const citLump    =parseFloat(document.getElementById('citLump').value)||0;
 
-  const monthRows=buildMonthlyRows({post,gradeNum,promoted,option,eventMonth,technical});
+  const monthRows=buildMonthlyRows({post,gradeNum,promoted,option,eventMonth,technical,dept});
   let aBasic=0,aTech=0,aAllow=0,aSpecial=0,aConv=0;
   for(const r of monthRows){aBasic+=r.basicSeg;aTech+=r.techSeg;aAllow+=r.allowSeg;aSpecial+=r.specialSeg;aConv+=r.convSeg;}
 
